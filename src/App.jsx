@@ -34,7 +34,9 @@ function App() {
     setTasks(toggle)
   }
 
-  // const editTask = (id) => {}
+  const editTask = (id) => {
+    setTasks(tasks.map((e) => (e.id === id ? { ...e, value: todo } : { ...e })))
+  }
 
   switch (done) {
     case 'All':
@@ -55,7 +57,7 @@ function App() {
     <div>
       <Header />
       <NewTaskForm addTask={addTask} todo={todo} setTodo={setTodo} />
-      <TaskList tasksCopy={tasksCopy} deleteTask={deleteTask} toggleTask={toggleTask} />
+      <TaskList tasksCopy={tasksCopy} deleteTask={deleteTask} toggleTask={toggleTask} editTask={editTask} />
       <Footer setDone={setDone} />
     </div>
   )
