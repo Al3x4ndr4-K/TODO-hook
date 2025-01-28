@@ -13,12 +13,14 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.7",
     "@babel/eslint-parser": "^7.26.5",
+    "@babel/preset-env": "^7.26.7",
     "@babel/preset-react": "^7.26.3",
     "@eslint/js": "^9.19.0",
     "@types/react": "^18.3.18",
@@ -42,8 +44,13 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix --max-warnings=0",
+      "eslint --fix",
       "prettier --write"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
