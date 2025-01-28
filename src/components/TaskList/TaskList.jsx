@@ -1,9 +1,9 @@
 import Task from '../Task/Task'
 
-export default function TaskList({ tasks, deleteTask, toggleTask }) {
+export default function TaskList({ tasksCopy, deleteTask, toggleTask }) {
   return (
     <>
-      {tasks.map((task) => (
+      {tasksCopy.map((task) => (
         <Task
           key={task.id}
           id={task.id}

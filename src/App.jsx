@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
 import NewTaskForm from './components/NewTaskForm/NewTaskForm'
 import TaskList from './components/TaskList/TaskList'
@@ -7,6 +8,9 @@ import TaskList from './components/TaskList/TaskList'
 function App() {
   const [todo, setTodo] = useState('')
   const [tasks, setTasks] = useState([])
+  const [done, setDone] = useState('')
+
+  let tasksCopy = tasks || []
 
   // console.log(tasks)
 
@@ -30,11 +34,29 @@ function App() {
     setTasks(toggle)
   }
 
+  // const editTask = (id) => {}
+
+  switch (done) {
+    case 'All':
+      tasksCopy = tasks
+      break
+    case 'Active':
+      tasksCopy = tasks.filter((task) => task.status === false)
+      break
+    case 'Completed':
+      tasksCopy = tasks.filter((task) => task.status === true)
+      break
+
+    default:
+      break
+  }
+
   return (
     <div>
       <Header />
       <NewTaskForm addTask={addTask} todo={todo} setTodo={setTodo} />
-      <TaskList tasks={tasks} deleteTask={deleteTask} toggleTask={toggleTask} />
+      <TaskList tasksCopy={tasksCopy} deleteTask={deleteTask} toggleTask={toggleTask} />
+      <Footer setDone={setDone} />
     </div>
   )
 }
