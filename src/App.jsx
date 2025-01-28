@@ -12,8 +12,6 @@ function App() {
 
   let tasksCopy = tasks || []
 
-  // console.log(tasks)
-
   const addTask = () => {
     const taskTodo = {
       id: Math.random(),
@@ -34,8 +32,8 @@ function App() {
     setTasks(toggle)
   }
 
-  const editTask = (id) => {
-    setTasks(tasks.map((e) => (e.id === id ? { ...e, value: todo } : { ...e })))
+  const editTask = (id, newValue) => {
+    setTasks(tasks.map((task) => (task.id === id ? { ...task, value: newValue } : task)))
   }
 
   switch (done) {
