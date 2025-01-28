@@ -13,20 +13,22 @@ export default function Task({ value, id, deleteTask, toggleTask, status, editTa
 
   return (
     <div>
-      <input type='checkbox' onClick={() => toggleTask(id)} defaultChecked={status} />
+      {!isEditing && <input type='checkbox' onClick={() => toggleTask(id)} defaultChecked={status} />}
       {isEditing ? (
         <input type='text' value={newValue} onChange={(e) => setNewValue(e.target.value)} onKeyDown={handleEdit} />
       ) : (
         <span style={status ? { textDecoration: 'line-through' } : { textDecoration: 'none' }}>{value}</span>
       )}
       {!isEditing && (
-        <button type='button' onClick={() => setIsEditing(true)}>
-          Edit
-        </button>
+        <>
+          <button type='button' onClick={() => setIsEditing(true)}>
+            Edit
+          </button>
+          <button type='button' onClick={() => deleteTask(id)}>
+            Delete
+          </button>
+        </>
       )}
-      <button type='button' onClick={() => deleteTask(id)}>
-        Delete
-      </button>
     </div>
   )
 }

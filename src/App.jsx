@@ -10,7 +10,7 @@ function App() {
   const [tasks, setTasks] = useState([])
   const [done, setDone] = useState('')
 
-  let tasksCopy = tasks || []
+  let tasksCopy = tasks
 
   const addTask = () => {
     const taskTodo = {
@@ -35,6 +35,7 @@ function App() {
   const editTask = (id, newValue) => {
     setTasks(tasks.map((task) => (task.id === id ? { ...task, value: newValue } : task)))
   }
+  const activeTasksCount = tasks.filter((task) => !task.status).length
 
   switch (done) {
     case 'All':
@@ -46,8 +47,13 @@ function App() {
     case 'Completed':
       tasksCopy = tasks.filter((task) => task.status === true)
       break
+    case 'Clear completed':
+      setTasks((prevTasks) => prevTasks.filter((task) => !task.status))
+      setDone('All')
+      break
 
     default:
+      tasksCopy = tasks
       break
   }
 
@@ -56,7 +62,7 @@ function App() {
       <Header />
       <NewTaskForm addTask={addTask} todo={todo} setTodo={setTodo} />
       <TaskList tasksCopy={tasksCopy} deleteTask={deleteTask} toggleTask={toggleTask} editTask={editTask} />
-      <Footer setDone={setDone} />
+      <Footer setDone={setDone} activeTasksCount={activeTasksCount} />
     </div>
   )
 }
