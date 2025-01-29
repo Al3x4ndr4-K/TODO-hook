@@ -1,17 +1,17 @@
-export default function TasksFilter({ setDone, activeTasksCount }) {
+export default function TasksFilter({ setFilter, activeTasksCount, clearCompleted }) {
   return (
     <>
       <span>{activeTasksCount} items left</span>
-      <button type='button' onClick={() => setDone('All')}>
+      <button type='button' onClick={() => setFilter('All')}>
         All
       </button>
-      <button type='button' onClick={() => setDone('Active')}>
+      <button type='button' onClick={() => setFilter('Active')}>
         Active
       </button>
-      <button type='button' onClick={() => setDone('Completed')}>
+      <button type='button' onClick={() => setFilter('Completed')}>
         Completed
       </button>
-      <button type='button' onClick={() => setDone('Clear completed')}>
+      <button type='button' onClick={clearCompleted}>
         Clear completed
       </button>
     </>
