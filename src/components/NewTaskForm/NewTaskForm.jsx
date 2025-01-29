@@ -5,7 +5,14 @@ export default function NewTaskForm({ setTasks }) {
 
   const addTask = () => {
     if (!todo.trim()) return
-    const newTask = { id: Math.random(), value: todo, status: false }
+
+    const newTask = {
+      id: Math.random(),
+      value: todo,
+      status: false,
+      createdAt: new Date()
+    }
+
     setTasks((prevTasks) => [newTask, ...prevTasks])
     setTodo('')
   }
@@ -15,14 +22,11 @@ export default function NewTaskForm({ setTasks }) {
   }
 
   return (
-    <span>
-      Todo
-      <input
-        value={todo}
-        onChange={(e) => setTodo(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder='What needs to be done?'
-      />
-    </span>
+    <input
+      value={todo}
+      onChange={(e) => setTodo(e.target.value)}
+      onKeyDown={handleKeyDown}
+      placeholder='What needs to be done?'
+    />
   )
 }

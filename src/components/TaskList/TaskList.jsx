@@ -33,6 +33,7 @@ export default function TaskList({ tasks, setTasks, filter }) {
           editTask={editTask}
           deleteTask={deleteTask}
           toggleTask={toggleTask}
+          createdAt={task.createdAt}
         />
       ))}
     </>

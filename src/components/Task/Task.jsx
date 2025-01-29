@@ -1,6 +1,7 @@
+import { formatDistanceToNow } from 'date-fns'
 import { useState } from 'react'
 
-export default function Task({ value, id, deleteTask, toggleTask, status, editTask }) {
+export default function Task({ value, id, deleteTask, toggleTask, status, editTask, createdAt }) {
   const [isEditing, setIsEditing] = useState(false)
   const [newValue, setNewValue] = useState(value)
 
@@ -19,6 +20,7 @@ export default function Task({ value, id, deleteTask, toggleTask, status, editTa
       ) : (
         <span style={status ? { textDecoration: 'line-through' } : { textDecoration: 'none' }}>{value}</span>
       )}
+      <span>created {formatDistanceToNow(new Date(createdAt))}</span>
       {!isEditing && (
         <>
           <button type='button' onClick={() => setIsEditing(true)}>
