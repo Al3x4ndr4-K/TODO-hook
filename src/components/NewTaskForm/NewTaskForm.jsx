@@ -1,10 +1,18 @@
-import { useState } from 'react'
+import { Component } from 'react'
 import './NewTaskForm.css'
 
-export default function NewTaskForm({ setTasks }) {
-  const [todo, setTodo] = useState('')
+class NewTaskForm extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      todo: ''
+    }
+  }
 
-  const addTask = () => {
+  addTask = () => {
+    const { todo } = this.state
+    const { setTasks, tasks } = this.props
+
     if (!todo.trim()) return
 
     const newTask = {
@@ -14,21 +22,37 @@ export default function NewTaskForm({ setTasks }) {
       createdAt: new Date()
     }
 
-    setTasks((prevTasks) => [newTask, ...prevTasks])
-    setTodo('')
+    if (Array.isArray(tasks)) {
+      setTasks([newTask, ...tasks])
+    } else {
+      setTasks([newTask])
+    }
+
+    this.setState({ todo: '' })
   }
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') addTask()
+  handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      this.addTask()
+    }
   }
 
-  return (
-    <input
-      value={todo}
-      onChange={(e) => setTodo(e.target.value)}
-      onKeyDown={handleKeyDown}
-      placeholder='What needs to be done?'
-      className='new-todo'
-    />
-  )
+  handleChange = (e) => {
+    this.setState({ todo: e.target.value })
+  }
+
+  render() {
+    const { todo } = this.state
+    return (
+      <input
+        value={todo}
+        onChange={this.handleChange}
+        onKeyDown={this.handleKeyDown}
+        placeholder='What needs to be done?'
+        className='new-todo'
+      />
+    )
+  }
 }
+
+export default NewTaskForm

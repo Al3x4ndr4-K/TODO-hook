@@ -1,22 +1,30 @@
+import { Component } from 'react'
+
 import TasksFilter from '../TasksFilter/TasksFilter'
 import './Footer.css'
 
-export default function Footer({ setFilter, tasks, setTasks, filter }) {
-  const activeTasksCount = tasks.filter((task) => !task.status).length
-
-  const clearCompleted = () => {
-    setTasks((prevTasks) => prevTasks.filter((task) => !task.status))
+class Footer extends Component {
+  clearCompleted = () => {
+    const { setTasks, setFilter, tasks } = this.props
+    setTasks(tasks.filter((task) => !task.status))
     setFilter('All')
   }
 
-  return (
-    <footer className='footer'>
-      <TasksFilter
-        setFilter={setFilter}
-        activeTasksCount={activeTasksCount}
-        clearCompleted={clearCompleted}
-        filter={filter}
-      />
-    </footer>
-  )
+  render() {
+    const { setFilter, tasks, filter } = this.props
+    const activeTasksCount = tasks.filter((task) => !task.status).length
+
+    return (
+      <footer className='footer'>
+        <TasksFilter
+          setFilter={setFilter}
+          activeTasksCount={activeTasksCount}
+          clearCompleted={this.clearCompleted}
+          filter={filter}
+        />
+      </footer>
+    )
+  }
 }
+
+export default Footer

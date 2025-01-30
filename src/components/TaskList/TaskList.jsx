@@ -1,7 +1,11 @@
+import { Component } from 'react'
+
 import Task from '../Task/Task'
 
-export default function TaskList({ tasks, setTasks, filter }) {
-  const filterTasks = () => {
+class TaskList extends Component {
+  filterTasks = () => {
+    const { tasks, filter } = this.props
+
     switch (filter) {
       case 'Active':
         return tasks.filter((task) => !task.status)
@@ -12,30 +16,39 @@ export default function TaskList({ tasks, setTasks, filter }) {
     }
   }
 
-  const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id))
+  deleteTask = (id) => {
+    const { setTasks, tasks } = this.props
+    setTasks(tasks.filter((task) => task.id !== id))
+  }
 
-  const toggleTask = (id) => {
+  toggleTask = (id) => {
+    const { setTasks, tasks } = this.props
     setTasks(tasks.map((task) => (task.id === id ? { ...task, status: !task.status } : task)))
   }
 
-  const editTask = (id, newValue) => {
+  editTask = (id, newValue) => {
+    const { setTasks, tasks } = this.props
     setTasks(tasks.map((task) => (task.id === id ? { ...task, value: newValue } : task)))
   }
 
-  return (
-    <>
-      {filterTasks().map((task) => (
-        <Task
-          key={task.id}
-          id={task.id}
-          value={task.value}
-          status={task.status}
-          editTask={editTask}
-          deleteTask={deleteTask}
-          toggleTask={toggleTask}
-          createdAt={task.createdAt}
-        />
-      ))}
-    </>
-  )
+  render() {
+    return (
+      <>
+        {this.filterTasks().map((task) => (
+          <Task
+            key={task.id}
+            id={task.id}
+            value={task.value}
+            status={task.status}
+            editTask={this.editTask}
+            deleteTask={this.deleteTask}
+            toggleTask={this.toggleTask}
+            createdAt={task.createdAt}
+          />
+        ))}
+      </>
+    )
+  }
 }
+
+export default TaskList
