@@ -1,0 +1,116 @@
+.checkbox-toggle {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.checkbox-toggle::after {
+  position: absolute;
+  content: '';
+  display: inline-block;
+  background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  width: 38px;
+  height: 36px;
+  top: -18px;
+  left: -55px;
+  background-position: center;
+  cursor: pointer;
+}
+
+.checkbox-toggle:checked::after {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23bddad5%22%20stroke-width%3D%223%22/%3E%3Cpath%20fill%3D%22%235dc2af%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22/%3E%3C/svg%3E');
+}
+
+.task {
+  position: relative;
+}
+
+.task label {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 85px 15px 60px;
+  align-items: center;
+  position: relative;
+}
+
+.task-description {
+  word-break: break-all;
+  display: block;
+  line-height: 1.2;
+  transition: color 0.4s;
+  font-weight: 400;
+  font-size: 24px;
+  padding-right: 20px;
+}
+
+.done {
+  color: #cdcdcd;
+  text-decoration: line-through;
+}
+
+.task-created-at {
+  font-size: 13px;
+  color: gray;
+}
+
+.task-buttons {
+  display: flex;
+  border: none;
+  background: transparent;
+  color: #cc9a9a;
+  cursor: pointer;
+}
+
+.editing {
+  position: relative;
+  margin-left: 60px;
+  width: 89.2%;
+  font-size: 24px;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: 1.4em;
+  color: inherit;
+  padding: 6px;
+  border: 1px solid #999;
+  box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+.edit-task-button {
+  position: absolute;
+  top: 10px;
+  bottom: -3px;
+  width: 30px;
+  height: 30px;
+  right: 35px;
+}
+
+.delete-task-button {
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  width: 30px;
+  height: 30px;
+}
+
+.delete-task-button:hover {
+  color: #af5b5e;
+  transition: color 0.2s ease-out;
+}
+
+.edit-task-button:hover {
+  color: #af5b5e;
+  transition: color 0.2s ease-out;
+}
+
+.edit-task-button::before {
+  font-size: 19px;
+  content: '✎';
+}
+
+.delete-task-button::before {
+  font-size: 34px;
+  content: '×';
+}

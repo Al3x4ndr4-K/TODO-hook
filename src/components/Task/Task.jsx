@@ -1,6 +1,8 @@
 import { formatDistanceToNow } from 'date-fns'
 import { useState } from 'react'
 
+import './Task.css'
+
 export default function Task({ value, id, deleteTask, toggleTask, status, editTask, createdAt }) {
   const [isEditing, setIsEditing] = useState(false)
   const [newValue, setNewValue] = useState(value)
@@ -13,24 +15,52 @@ export default function Task({ value, id, deleteTask, toggleTask, status, editTa
   }
 
   return (
-    <div>
-      {!isEditing && <input type='checkbox' onClick={() => toggleTask(id)} defaultChecked={status} />}
-      {isEditing ? (
-        <input type='text' value={newValue} onChange={(e) => setNewValue(e.target.value)} onKeyDown={handleEdit} />
-      ) : (
-        <span style={status ? { textDecoration: 'line-through' } : { textDecoration: 'none' }}>{value}</span>
+    <li className='task'>
+      {!isEditing && (
+        <label htmlFor={`task-${id}`}>
+          <input
+            className='checkbox-toggle'
+            type='checkbox'
+            id={`task-${id}`}
+            onClick={() => toggleTask(id)}
+            defaultChecked={status}
+          />
+          <span
+            className={`task-description ${status ? 'done' : ''}`}
+            style={status ? { textDecoration: 'line-through' } : { textDecoration: 'none' }}
+          >
+            {value}
+          </span>
+          <span className='task-created-at'>
+            created {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+          </span>
+        </label>
       )}
-      <span>created {formatDistanceToNow(new Date(createdAt))}</span>
+      {isEditing ? (
+        <input
+          className='editing'
+          type='text'
+          value={newValue}
+          onChange={(e) => setNewValue(e.target.value)}
+          onKeyDown={handleEdit}
+        />
+      ) : null}
       {!isEditing && (
         <>
-          <button type='button' onClick={() => setIsEditing(true)}>
-            Edit
-          </button>
-          <button type='button' onClick={() => deleteTask(id)}>
-            Delete
-          </button>
+          <button
+            className='edit-task-button task-buttons'
+            type='button'
+            onClick={() => setIsEditing(true)}
+            aria-label='Edit task'
+          />
+          <button
+            className='delete-task-button task-buttons'
+            type='button'
+            onClick={() => deleteTask(id)}
+            aria-label='Delete task'
+          />
         </>
       )}
-    </div>
+    </li>
   )
 }

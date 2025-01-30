@@ -10,12 +10,16 @@ function App() {
   const [filter, setFilter] = useState('All')
 
   return (
-    <div>
+    <>
       <Header />
-      <NewTaskForm setTasks={setTasks} />
-      <TaskList tasks={tasks} setTasks={setTasks} filter={filter} />
-      <Footer setFilter={setFilter} tasks={tasks} setTasks={setTasks} />
-    </div>
+      <section className='todoapp'>
+        <NewTaskForm setTasks={setTasks} />
+        <ul className='task-list'>
+          <TaskList tasks={tasks} setTasks={setTasks} filter={filter} />
+        </ul>
+        <Footer setFilter={setFilter} tasks={tasks} setTasks={setTasks} filter={filter} />
+      </section>
+    </>
   )
 }
 

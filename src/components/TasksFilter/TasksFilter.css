@@ -1,0 +1,46 @@
+.button {
+  background: none;
+  font-size: 100%;
+  vertical-align: baseline;
+  font-family: inherit;
+  font-weight: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: pointer;
+  display: inline-block;
+  color: inherit;
+  margin: 3px;
+  padding: 3px 7px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+
+.button::-moz-focus-inner {
+  border: none;
+}
+
+.button:hover {
+  border-color: rgba(175, 47, 47, 0.1);
+}
+
+.button.active {
+  border-color: rgba(175, 47, 47, 0.2);
+}
+
+.clear-completed:hover {
+  text-decoration: underline;
+  border: 1px solid transparent;
+}
+
+.filters {
+  display: inline-flex;
+  list-style-type: none;
+}
+
+.filters li {
+  display: inline;
+  cursor: default;
+}

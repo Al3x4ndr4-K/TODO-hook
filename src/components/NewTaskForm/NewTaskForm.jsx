@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './NewTaskForm.css'
 
 export default function NewTaskForm({ setTasks }) {
   const [todo, setTodo] = useState('')
@@ -27,6 +28,7 @@ export default function NewTaskForm({ setTasks }) {
       onChange={(e) => setTodo(e.target.value)}
       onKeyDown={handleKeyDown}
       placeholder='What needs to be done?'
+      className='new-todo'
     />
   )
 }
