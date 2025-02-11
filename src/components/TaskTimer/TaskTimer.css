@@ -11,6 +11,12 @@
   padding: 6px 6px 6px 16px;
 }
 
+.new-todo-timer::-webkit-outer-spin-button,
+.new-todo-timer::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .new-todo-timer::placeholder {
   font-style: italic;
   font-weight: 300;

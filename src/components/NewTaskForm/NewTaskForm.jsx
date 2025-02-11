@@ -68,8 +68,24 @@ class NewTaskForm extends Component {
           placeholder='Task'
           className='new-todo'
         />
-        <input value={timerMinutes} onChange={this.handleMinutesChange} placeholder='Min' className='new-todo-timer' />
-        <input value={timerSeconds} onChange={this.handleSecondsChange} placeholder='Sec' className='new-todo-timer' />
+        <input
+          type='number'
+          min='0'
+          max='59'
+          value={timerMinutes}
+          onChange={this.handleMinutesChange}
+          placeholder='Min'
+          className='new-todo-timer'
+        />
+        <input
+          type='number'
+          min='0'
+          max='59'
+          value={timerSeconds}
+          onChange={this.handleSecondsChange}
+          placeholder='Sec'
+          className='new-todo-timer'
+        />
       </form>
     )
   }
