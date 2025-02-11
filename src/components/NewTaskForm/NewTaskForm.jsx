@@ -5,21 +5,29 @@ class NewTaskForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      todo: ''
+      todo: '',
+      timerMinutes: '',
+      timerSeconds: ''
     }
   }
 
   addTask = () => {
-    const { todo } = this.state
+    const { todo, timerMinutes, timerSeconds } = this.state
     const { setTasks, tasks } = this.props
 
     if (!todo.trim()) return
+
+    const minutes = parseInt(timerMinutes, 10) || 0
+    const seconds = parseInt(timerSeconds, 10) || 0
+
+    const initialTime = (minutes * 60 + seconds) * 1000
 
     const newTask = {
       id: Math.random(),
       value: todo,
       status: false,
-      createdAt: new Date()
+      createdAt: new Date(),
+      initialTime
     }
 
     if (Array.isArray(tasks)) {
@@ -28,7 +36,7 @@ class NewTaskForm extends Component {
       setTasks([newTask])
     }
 
-    this.setState({ todo: '' })
+    this.setState({ todo: '', timerMinutes: '', timerSeconds: '' })
   }
 
   handleKeyDown = (e) => {
@@ -41,16 +49,28 @@ class NewTaskForm extends Component {
     this.setState({ todo: e.target.value })
   }
 
+  handleMinutesChange = (e) => {
+    this.setState({ timerMinutes: e.target.value })
+  }
+
+  handleSecondsChange = (e) => {
+    this.setState({ timerSeconds: e.target.value })
+  }
+
   render() {
-    const { todo } = this.state
+    const { todo, timerMinutes, timerSeconds } = this.state
     return (
-      <input
-        value={todo}
-        onChange={this.handleChange}
-        onKeyDown={this.handleKeyDown}
-        placeholder='What needs to be done?'
-        className='new-todo'
-      />
+      <form className='new-todo-form'>
+        <input
+          value={todo}
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyDown}
+          placeholder='Task'
+          className='new-todo'
+        />
+        <input value={timerMinutes} onChange={this.handleMinutesChange} placeholder='Min' className='new-todo-timer' />
+        <input value={timerSeconds} onChange={this.handleSecondsChange} placeholder='Sec' className='new-todo-timer' />
+      </form>
     )
   }
 }
