@@ -1,1 +1,1 @@
-Making TODO application
+Added task timer
