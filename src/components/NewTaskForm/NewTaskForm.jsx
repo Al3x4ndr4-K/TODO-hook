@@ -1,20 +1,12 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import './NewTaskForm.css'
 
-class NewTaskForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      todo: '',
-      timerMinutes: '',
-      timerSeconds: ''
-    }
-  }
+function NewTaskForm({ setTasks, tasks }) {
+  const [todo, setTodo] = useState('')
+  const [timerMinutes, setTimerMinutes] = useState('')
+  const [timerSeconds, setTimerSeconds] = useState('')
 
-  addTask = () => {
-    const { todo, timerMinutes, timerSeconds } = this.state
-    const { setTasks, tasks } = this.props
-
+  const addTask = () => {
     if (!todo.trim()) return
 
     const minutes = parseInt(timerMinutes, 10) || 0
@@ -30,65 +22,45 @@ class NewTaskForm extends Component {
       initialTime
     }
 
-    if (Array.isArray(tasks)) {
-      setTasks([newTask, ...tasks])
-    } else {
-      setTasks([newTask])
-    }
-
-    this.setState({ todo: '', timerMinutes: '', timerSeconds: '' })
+    setTasks([newTask, ...tasks])
+    setTodo('')
+    setTimerMinutes('')
+    setTimerSeconds('')
   }
 
-  handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      this.addTask()
-    }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') addTask()
   }
 
-  handleChange = (e) => {
-    this.setState({ todo: e.target.value })
-  }
-
-  handleMinutesChange = (e) => {
-    this.setState({ timerMinutes: e.target.value })
-  }
-
-  handleSecondsChange = (e) => {
-    this.setState({ timerSeconds: e.target.value })
-  }
-
-  render() {
-    const { todo, timerMinutes, timerSeconds } = this.state
-    return (
-      <form className='new-todo-form'>
-        <input
-          value={todo}
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
-          placeholder='Task'
-          className='new-todo'
-        />
-        <input
-          type='number'
-          min='0'
-          max='59'
-          value={timerMinutes}
-          onChange={this.handleMinutesChange}
-          placeholder='Min'
-          className='new-todo-timer'
-        />
-        <input
-          type='number'
-          min='0'
-          max='59'
-          value={timerSeconds}
-          onChange={this.handleSecondsChange}
-          placeholder='Sec'
-          className='new-todo-timer'
-        />
-      </form>
-    )
-  }
+  return (
+    <form className='new-todo-form'>
+      <input
+        value={todo}
+        onChange={(e) => setTodo(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder='Task'
+        className='new-todo'
+      />
+      <input
+        type='number'
+        min='0'
+        max='59'
+        value={timerMinutes}
+        onChange={(e) => setTimerMinutes(e.target.value)}
+        placeholder='Min'
+        className='new-todo-timer'
+      />
+      <input
+        type='number'
+        min='0'
+        max='59'
+        value={timerSeconds}
+        onChange={(e) => setTimerSeconds(e.target.value)}
+        placeholder='Sec'
+        className='new-todo-timer'
+      />
+    </form>
+  )
 }
 
 export default NewTaskForm

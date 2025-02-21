@@ -1,104 +1,79 @@
-import { Component } from 'react'
 import './TaskTimer.css'
+import { useEffect, useRef, useState } from 'react'
 
-class TaskTimer extends Component {
-  static formatTime(ms) {
-    const totalSeconds = Math.floor(ms / 1000)
-    const minutes = Math.floor((totalSeconds % 3600) / 60)
-    const seconds = totalSeconds % 60
-    const pad = (num) => (num < 10 ? `0${num}` : num)
-    return `${pad(minutes)}:${pad(seconds)}`
-  }
+const formatTime = (ms) => {
+  const totalSeconds = Math.floor(ms / 1000)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
+  const pad = (num) => (num < 10 ? `0${num}` : num)
+  return `${pad(minutes)}:${pad(seconds)}`
+}
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isTimerRunning: false,
-      timerStart: null,
-      elapsedTime: props.initialTime || 0
-    }
-    this.timerInterval = null
-  }
+function TaskTimer({ initialTime = 0, updateTaskTime, disabled }) {
+  const [isTimerRunning, setIsTimerRunning] = useState(false)
+  const [elapsedTime, setElapsedTime] = useState(initialTime)
+  const timerStartRef = useRef(null)
+  const timerIntervalRef = useRef(null)
 
-  componentDidUpdate(prevProps) {
-    const { initialTime } = this.props
-    if (initialTime !== prevProps.initialTime) {
-      this.setState({ elapsedTime: initialTime })
-    }
-  }
+  useEffect(() => {
+    setElapsedTime(initialTime)
+  }, [initialTime])
 
-  componentWillUnmount() {
-    if (this.timerInterval) {
-      clearInterval(this.timerInterval)
-    }
-  }
-
-  startTimer = () => {
-    const { isTimerRunning } = this.state
-    if (isTimerRunning) return
-    this.setState(
-      {
-        isTimerRunning: true,
-        timerStart: Date.now()
-      },
-      () => {
-        this.timerInterval = setInterval(() => {
-          this.forceUpdate()
-        }, 1000)
+  useEffect(() => {
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current)
       }
-    )
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isTimerRunning) {
+      timerIntervalRef.current = setInterval(() => {
+        setElapsedTime(initialTime + (Date.now() - timerStartRef.current))
+      }, 1000)
+    } else {
+      clearInterval(timerIntervalRef.current)
+      timerIntervalRef.current = null
+    }
+
+    return () => clearInterval(timerIntervalRef.current)
+  }, [isTimerRunning, initialTime])
+
+  const startTimer = () => {
+    if (isTimerRunning) return
+    timerStartRef.current = Date.now()
+    setIsTimerRunning(true)
   }
 
-  stopTimer = () => {
-    const { isTimerRunning, timerStart, elapsedTime } = this.state
+  const stopTimer = () => {
     if (!isTimerRunning) return
 
-    const timePassed = Date.now() - timerStart
-    clearInterval(this.timerInterval)
-    this.timerInterval = null
-
-    const newElapsedTime = elapsedTime + timePassed
-
-    this.setState(
-      {
-        isTimerRunning: false,
-        timerStart: null,
-        elapsedTime: newElapsedTime
-      },
-      () => {
-        const { updateTaskTime } = this.props
-        updateTaskTime(newElapsedTime)
-      }
-    )
+    const totalElapsed = initialTime + (Date.now() - timerStartRef.current)
+    setElapsedTime(totalElapsed)
+    setIsTimerRunning(false)
+    updateTaskTime(totalElapsed)
   }
 
-  render() {
-    const { disabled } = this.props
-    const { isTimerRunning, timerStart, elapsedTime } = this.state
-
-    const totalTime = elapsedTime + (isTimerRunning ? Date.now() - timerStart : 0)
-    const formattedTime = TaskTimer.formatTime(totalTime)
-
-    return (
-      <span className='task-timer'>
-        <button
-          type='button'
-          onClick={this.startTimer}
-          aria-label='Start timer'
-          className='start-timer-button task-buttons'
-          disabled={disabled || isTimerRunning}
-        />
-        <button
-          type='button'
-          onClick={this.stopTimer}
-          aria-label='Pause timer'
-          className='pause-timer-button task-buttons'
-          disabled={disabled || !isTimerRunning}
-        />
-        <span className='timer-display'>{formattedTime}</span>
-      </span>
-    )
-  }
+  return (
+    <span className='task-timer'>
+      <button
+        type='button'
+        onClick={startTimer}
+        aria-label='Start timer'
+        className='start-timer-button task-buttons'
+        disabled={disabled || isTimerRunning}
+      />
+      <button
+        type='button'
+        onClick={stopTimer}
+        aria-label='Pause timer'
+        className='pause-timer-button task-buttons'
+        disabled={disabled || !isTimerRunning}
+      />
+      <span className='timer-display'>{formatTime(elapsedTime)}</span>
+    </span>
+  )
 }
 
 export default TaskTimer
